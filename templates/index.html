@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HackaGrind | Advanced Hackatime Dashboard</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="brand">
+                <div class="logo">⚡</div>
+                <h1>HackaGrind</h1>
+                <span class="badge desktop-badge">Desktop Standalone</span>
+            </div>
+            <div class="header-right">
+                <div class="live-status" id="live-status">
+                    <span class="pulse-dot"></span>
+                    <span id="active-session-text">Live: Coding on HackaGrind</span>
+                </div>
+                <button class="btn btn-settings" id="btn-open-settings">⚙️ Settings</button>
+            </div>
+        </header>
+
+        <!-- Settings Modal Popup -->
+        <div class="modal-backdrop" id="settings-modal" style="display: none;">
+            <div class="modal-card">
+                <div class="modal-header">
+                    <h2>⚙️ Hackatime Integration Settings</h2>
+                    <button class="btn-close" id="btn-close-settings">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="hackatime-api-key">Hackatime API Key</label>
+                        <input type="password" id="hackatime-api-key" placeholder="Paste your Hackatime / Wakapi API key..." class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="hackatime-base-url">API Server URL</label>
+                        <input type="text" id="hackatime-base-url" value="https://hackatime.hackclub.com/api/v1" class="form-input">
+                    </div>
+                    <div id="sync-status-msg" class="sync-status"></div>
+                    <div class="modal-actions">
+                        <button class="btn btn-primary" id="btn-run-sync">📥 Import All Hackatime Data</button>
+                        <button class="btn btn-danger" id="btn-clear-db">🗑️ Clear Local Data</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Overview Cards -->
+        <section class="metrics-grid">
+            <div class="card metric-card">
+                <span class="metric-label">Total Grind Time</span>
+                <h2 id="total-time-val">0h 0m</h2>
+                <div class="progress-bar-bg"><div class="progress-bar-fill" id="time-progress"></div></div>
+            </div>
+            <div class="card metric-card">
+                <span class="metric-label">Active Projects</span>
+                <h2 id="projects-count">0</h2>
+                <span class="metric-sub">Tracked in SQLite</span>
+            </div>
+            <div class="card metric-card">
+                <span class="metric-label">Top Language</span>
+                <h2 id="top-lang-val">Python</h2>
+                <span class="metric-sub" id="top-lang-sub">0% of total time</span>
+            </div>
+            <div class="card metric-card">
+                <span class="metric-label">Grind Streak</span>
+                <h2 id="streak-val">🔥 14 Days</h2>
+                <span class="metric-sub">Daily target met</span>
+            </div>
+        </section>
+
+        <!-- Multi-Project Selection Bar -->
+        <section class="card filter-section">
+            <div class="filter-header">
+                <h3>🔍 Multi-Project Comparison & Filter</h3>
+                <button class="btn btn-sm" id="btn-select-all">Select All</button>
+            </div>
+            <div class="project-pills" id="project-pills-container">
+                <!-- Multi-select pills dynamically populated by JS -->
+            </div>
+        </section>
+
+        <!-- Charts Grid -->
+        <section class="charts-grid">
+            <div class="card chart-card">
+                <h3>📊 Time by Project</h3>
+                <div class="chart-container">
+                    <canvas id="projectChart"></canvas>
+                </div>
+            </div>
+            <div class="card chart-card">
+                <h3>💻 Time by Language</h3>
+                <div class="chart-container">
+                    <canvas id="languageChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Detailed Breakdown Table -->
+        <section class="card table-section">
+            <h3>📑 Detailed Breakdown</h3>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Name</th>
+                        <th>Time Spent</th>
+                        <th>Percentage</th>
+                    </tr>
+                </thead>
+                <tbody id="breakdown-tbody">
+                    <!-- Populated by JS -->
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <script src="/static/js/dashboard.js"></script>
+</body>
+</html>
